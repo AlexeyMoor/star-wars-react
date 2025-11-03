@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Poller+One&display=swap');
+
+body {
+  font-family: 'Poller One', sans-serif;
+}
+
+:root { /* :root - имеет высший приоритет, чем html (но смысл работы одинаков)*/
+  --color-main: #eedb00;
+  --bg-color-drey: rgba(60, 69, 67, 0.6);
+  --bg-color-red: rgba(240, 3, 35, 0.5);
+}
+
+body {
+  font-family: 'Poller One', sans-serif;
+  background-image: url("./assets/sky.jpg");
+  color: var(--color-main);
+  background-attachment: fixed; /* Фон не прокручивается вместе со страницей */
+}

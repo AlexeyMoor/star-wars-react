@@ -1,0 +1,32 @@
+/* HEADER */
+header, footer {
+  background-color: var(--bg-color-drey);
+}
+
+/* MAIN */
+.float-start {
+  box-shadow: 10px 10px 10px #556865;
+}
+
+.far-galaxy {
+  letter-spacing: 0.1em; /* Расстояние между буквами */
+  text-align: justify; /* Выравнивание теста по ширине */
+}
+
+.rounded-bottom-left {
+  border-bottom-left-radius: 2.5rem;
+}
+
+.rounded-bottom-right {
+  border-bottom-right-radius: 2.5rem;
+}
+
+/* FOOTER */
+footer {
+  height: 5rem;
+}
+
+.btn-danger {
+  background-color: var(--bg-color-red);
+  color: var(--color-main);
+}
