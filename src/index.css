@@ -6,14 +6,19 @@
 /*}*/
 
 :root {
-    --color-main: #eedb00;
-    --bg-color-grey: rgba(60, 69, 67, 0.6);
-    --bg-color-red: rgba(204, 3, 35, 0.5);
+  --color-main: #eedb00;
+  --bg-color-grey: rgba(60, 69, 67, 0.6);
+  --bg-color-red: rgba(204, 3, 35, 0.5);
 }
 
 body {
-    font-family: "Poller One", sans-serif;
-    background-image: url("./assets/sky.jpg");
-    color: var(--color-main);
-    background-attachment: fixed;
+  font-family: "Poller One", sans-serif;
+  background-image: url("./assets/sky.jpg");
+  color: var(--color-main);
+  background-attachment: fixed;
+}
+
+textarea.form-control {
+  font-family: "Poller One", sans-serif;
+  min-height: 150px;
 }
