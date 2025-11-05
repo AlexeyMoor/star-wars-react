@@ -1,15 +1,23 @@
 import {useEffect, useState} from "react";
-import {base_url} from "../utils/constants.js";
+import {base_url, period_months} from "../utils/constants.js";
 import hero from "../assets/main.jpg";
 
 const AboutMe = () => {
   const [aboutMe, setAboutMe] = useState();
 
   useEffect(() => {
-    fetch(`${base_url}/v1/peoples/1`)
-      .then(response => response.json())
-      .then(data => setAboutMe(data))
-      .catch(() => setAboutMe('Error on fetching about me!'));
+    const about_me = JSON.parse(localStorage.getItem("about_me"));
+    if (about_me && ((Date.now() - about_me.timestamp) < period_months)) {
+      setAboutMe(about_me.payload);
+    } else {
+      fetch(`${base_url}/v1/peoples/1`)
+        .then(response => response.json())
+        .then(data => {
+          setAboutMe(data);
+          localStorage.setItem("about_me", JSON.stringify({payload: data, timestamp: Date.now()}));
+        })
+        .catch(() => setAboutMe('Error on fetching about me!'));
+    }
   }, []);
 
   if (aboutMe) {

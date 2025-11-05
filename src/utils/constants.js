@@ -24,6 +24,8 @@ export const base_url = 'https://sw-info-api.herokuapp.com';
 
 export const navItems = ['Home', 'About me', 'Star Wars', 'Contact'];
 
+export const period_months = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
+
 export const starWarsInfo = `
 Star Wars is an American epic space opera media franchise created by George Lucas, which began with the eponymous 1977 
 film[a] and quickly became a worldwide pop culture phenomenon. The franchise has been expanded into various films and 
@@ -41,5 +43,4 @@ All nine films, collectively referred to as the "Skywalker Saga", were nominated
 to the first three releases. Together with the theatrical live action "anthology" films Rogue One (2016) and Solo (2018), 
 the combined box office revenue of the films equate to over US$10 billion, making Star Wars the third-highest-grossing 
 film franchise in cinematic history.`
-
 
