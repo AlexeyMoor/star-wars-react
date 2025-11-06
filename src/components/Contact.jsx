@@ -16,13 +16,13 @@ const Contact = () => {
   useEffect(() => {
     const planetsData = JSON.parse(localStorage.getItem("planets_list"));
     if (planetsData && (Date.now() - planetsData.timestamp < period_months)) {
-      setPlanets(planetsData.payload || []);
+      setPlanets(planetsData.payload);
     } else {
       setLoading(true);
       fetch(`${base_url}/v1/planets`)
         .then(response => response.json())
         .then(data => {
-          const planetsArr = data.results || data || [];
+          const planetsArr = data.results || data;
           setPlanets(planetsArr);
           localStorage.setItem("planets_list", JSON.stringify({
               payload: planetsArr,
@@ -43,7 +43,7 @@ const Contact = () => {
     e.preventDefault();
     console.log(form);
     alert('Form submitted!');
-    setForm(initialForm); // сбросить все поля
+    setForm(initialForm);
   };
 
   if (loading) {

@@ -6,9 +6,7 @@ const Home = () => {
   return (
     <main className="clearfix">
       <Hero />
-
       <DreamTeam />
-
       <OpeningCrawl />
     </main>
   );
