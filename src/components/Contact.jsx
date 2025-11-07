@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {base_url, period_months} from "../utils/constants.js";
+import Button from "./ui/Button.jsx";
 
 const initialForm = {
   first_name: '',
@@ -22,7 +23,7 @@ const Contact = () => {
       fetch(`${base_url}/v1/planets`)
         .then(response => response.json())
         .then(data => {
-          const planetsArr = data.results || data;
+          const planetsArr = data.results;
           setPlanets(planetsArr);
           localStorage.setItem("planets_list", JSON.stringify({
               payload: planetsArr,
@@ -47,35 +48,70 @@ const Contact = () => {
   };
 
   if (loading) {
-    return <div className="text-center my-5"><span className="spinner-border"></span> Loading...</div>;
+    return (<p className="text-center text-2xl leading-8 my-8">
+        <span
+          className="inline-block w-6 h-6 mr-2 border-4 border-main border-t-transparent rounded-full animate-spin align-middle"
+        ></span>
+        Loading...
+      </p>
+    );
   }
 
   return (
-    <form className="card w-50 mx-auto my-4 p-4" style={{backgroundColor: '#eedb00'}} onSubmit={handleSubmit}>
-      <h2 className="mb-4 text-center">Contact Form</h2>
-      <div className="mb-3">
-        <label className="form-label">First Name</label>
-        <input type="text" className="form-control" name="first_name" value={form.first_name} onChange={handleChange} />
+    <form
+      className="max-w-[800px] mx-auto p-6 rounded-xl shadow bg-main text-black"
+      onSubmit={handleSubmit}
+    >
+      <h2 className="mb-6 text-2xl font-bold text-center">Contact Form</h2>
+      <div className="mb-4">
+        <label className="block mb-1 font-medium">First Name</label>
+        <input
+          className="w-full px-3 py-2 border border-grey rounded-md focus:outline-none focus:ring-1 focus:ring-black bg-yellow-50"
+          type="text"
+          name="first_name"
+          value={form.first_name}
+          onChange={handleChange}
+          required
+        />
       </div>
-      <div className="mb-3">
-        <label className="form-label">Last Name</label>
-        <input type="text" className="form-control" name="last_name" value={form.last_name} onChange={handleChange} />
+      <div className="mb-4">
+        <label className="block mb-1 font-medium">Last Name</label>
+        <input
+          className="w-full px-3 py-2 border border-grey rounded-md focus:outline-none focus:ring-1 focus:ring-black bg-yellow-50"
+          type="text"
+          name="last_name"
+          value={form.last_name}
+          onChange={handleChange}
+          required
+        />
       </div>
-      <div className="mb-3">
-        <label className="form-label">Planets</label>
-        <select className="form-select" name="planet" value={form.planet} onChange={handleChange}>
+      <div className="mb-4">
+        <label className="block mb-1 font-medium">Planets</label>
+        <select
+          className="w-full px-3 py-2 border border-grey rounded-md focus:outline-none focus:ring-1 focus:ring-black bg-yellow-50"
+          name="planet"
+          value={form.planet}
+          onChange={handleChange}
+        >
           <option value="" disabled>Select a planet</option>
           {planets.map(planet => (
             <option key={planet.name} value={planet.name}>{planet.name}</option>
           ))}
         </select>
       </div>
-      <div className="mb-4">
-        <label className="form-label">Message</label>
-        <textarea className="form-control" name="message" value={form.message} onChange={handleChange} />
+      <div className="mb-6">
+        <label className="block mb-1 font-medium">Message</label>
+        <textarea
+          className="w-full h-60 px-3 py-2 border border-grey rounded-md focus:outline-none focus:ring-1 focus:ring-black bg-yellow-50"
+          name="message"
+          value={form.message}
+          onChange={handleChange}
+        />
       </div>
 
-      <button type="submit" className="btn btn-danger w-100">Send</button>
+      <div className="flex justify-center ">
+        <Button type="submit" className="text-main w-1/2">Send</Button>
+      </div>
     </form>
   );
 };

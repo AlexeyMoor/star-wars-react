@@ -10,7 +10,7 @@ function App() {
 
   return (
     <StarWarsContext value={{page, setPage}}>
-      <div className={'container-fluid'}>
+      <div className={'mx-1.5'}>
         <Header />
         <Main page={page} />
         <Footer />

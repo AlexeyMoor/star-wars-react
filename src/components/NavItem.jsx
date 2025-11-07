@@ -1,10 +1,12 @@
 import {useContext} from "react";
 import {StarWarsContext} from "../utils/constants.js";
+import Button from "./ui/Button.jsx";
 
 const NavItem = ({itemTitle}) => {
   const {setPage} = useContext(StarWarsContext);
+
   return (
-    <li onClick={() => setPage(itemTitle)} className="nav-item btn btn-danger mx-1 border-warning">{itemTitle}</li>
+    <Button callback={() => setPage(itemTitle)}>{itemTitle}</Button>
   );
 };
 

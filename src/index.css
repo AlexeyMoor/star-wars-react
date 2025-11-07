@@ -1,24 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Poller+One&display=swap');
+@import "tailwindcss";
 
-/*html {*/
-/*    --color-main: #eedb00;*/
-/*    --bg-color-grey: rgba(60, 69, 67, 0.6);*/
-/*}*/
-
-:root {
+@theme {
+  --font-poller: 'Poller One', sans-serif;
+  --background-image-sky: url("./assets/sky.jpg");
   --color-main: #eedb00;
-  --bg-color-grey: rgba(60, 69, 67, 0.6);
-  --bg-color-red: rgba(204, 3, 35, 0.5);
+  --color-grey: rgba(60, 69, 67, 0.6);
+  --color-red: rgba(204, 3, 35, 0.5);
+  --shadow-hero: 0.6rem 0.6rem 0.6rem gray;
 }
 
-body {
-  font-family: "Poller One", sans-serif;
-  background-image: url("./assets/sky.jpg");
-  color: var(--color-main);
-  background-attachment: fixed;
+@layer base {
+  body {
+    @apply font-poller text-main bg-sky bg-fixed;
+  }
 }
 
-textarea.form-control {
-  font-family: "Poller One", sans-serif;
-  min-height: 150px;
+@layer utilities {
+  .hover\:rotate-10deg:hover {
+    transform: rotate(10deg);
+    transition: transform 0.2s cubic-bezier(0.4,0,0.2,1);
+  }
 }
