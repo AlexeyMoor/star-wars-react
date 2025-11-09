@@ -9,15 +9,23 @@ const initialForm = {
   message: '',
 };
 
-const getPlanets = () => {
+const getPlanets = async () => {
   try {
     const planetsData = JSON.parse(localStorage.getItem("planets_list"));
-    if (planetsData && Date.now() - planetsData.timestamp < period_months)
+    if (planetsData && Date.now() - planetsData.timestamp < period_months) {
       return planetsData.payload;
-  } catch {
-    console.error("Error parsing planets from local Storage!");
+    }
+    const response = await fetch(`${base_url}/v1/planets`);
+    const data = await response.json();
+    localStorage.setItem("planets_list", JSON.stringify({
+      payload: data.results ?? [],
+      timestamp: Date.now()
+    }));
+    return data.results ?? [];
+  } catch (e) {
+    console.error("Error parsing planets from local Storage!", e);
+    return [];
   }
-  return [];
 };
 
 const Contact = () => {
@@ -26,23 +34,10 @@ const Contact = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const planets = getPlanets();
-    if (planets.length) {
-      setPlanets(planets);
-    } else {
-      setLoading(true);
-      fetch(`${base_url}/v1/planets`)
-        .then(response => response.json())
-        .then(data => {
-          setPlanets(data.results ?? []);
-          localStorage.setItem("planets_list", JSON.stringify({
-            payload: data.results ?? [],
-            timestamp: Date.now()
-          }));
-        })
-        .catch(() => setPlanets([]))
-        .finally(() => setLoading(false));
-    }
+    setLoading(true);
+    getPlanets()
+      .then(planets => setPlanets(planets))
+      .finally(() => setLoading(false));
   }, []);
 
   const handleChange = e => {
