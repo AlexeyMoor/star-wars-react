@@ -9,35 +9,34 @@ const initialForm = {
   message: '',
 };
 
-const getPlanets = async () => {
-  try {
-    const planetsData = JSON.parse(localStorage.getItem("planets_list"));
-    if (planetsData && Date.now() - planetsData.timestamp < period_months) {
-      return planetsData.payload;
-    }
-    const response = await fetch(`${base_url}/v1/planets`);
-    const data = await response.json();
-    localStorage.setItem("planets_list", JSON.stringify({
-      payload: data.results ?? [],
-      timestamp: Date.now()
-    }));
-    return data.results ?? [];
-  } catch (e) {
-    console.error("Error parsing planets from local Storage!", e);
-    return [];
-  }
-};
-
 const Contact = () => {
-  const [planets, setPlanets] = useState([]);
+  const [planets, setPlanets] = useState(['wait...']);
   const [form, setForm] = useState(initialForm);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  async function getPlanets() {
     setLoading(true);
-    getPlanets()
-      .then(planets => setPlanets(planets))
-      .finally(() => setLoading(false));
+    try {
+      const res = await fetch(`${base_url}/v1/planets`);
+      const data = await res.json();
+      const planetsArr = (Array.isArray(data) ? data : data.results ?? []).map(item => item.name);
+      setPlanets(planetsArr);
+      localStorage.setItem('planets', JSON.stringify({
+        payload: planetsArr,
+        timestamp: Date.now()
+      }));
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    const planetsData = JSON.parse(localStorage.getItem('planets'));
+    if (planetsData && ((Date.now() - planetsData.timestamp) < period_months)) {
+      setPlanets(planetsData.payload);
+    } else {
+      getPlanets().then(() => console.log('Planets were loaded'));
+    }
   }, []);
 
   const handleChange = e => {
@@ -97,7 +96,7 @@ const Contact = () => {
         >
           <option value="" disabled>Select a planet</option>
           {planets.map(planet => (
-            <option key={planet.name} value={planet.name}>{planet.name}</option>
+            <option key={planet} value={planet}>{planet}</option>
           ))}
         </select>
       </div>
