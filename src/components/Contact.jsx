@@ -9,27 +9,36 @@ const initialForm = {
   message: '',
 };
 
+const getPlanets = () => {
+  try {
+    const planetsData = JSON.parse(localStorage.getItem("planets_list"));
+    if (planetsData && Date.now() - planetsData.timestamp < period_months)
+      return planetsData.payload;
+  } catch {
+    console.error("Error parsing planets from local Storage!");
+  }
+  return [];
+};
+
 const Contact = () => {
   const [planets, setPlanets] = useState([]);
   const [form, setForm] = useState(initialForm);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const planetsData = JSON.parse(localStorage.getItem("planets_list"));
-    if (planetsData && (Date.now() - planetsData.timestamp < period_months)) {
-      setPlanets(planetsData.payload);
+    const planets = getPlanets();
+    if (planets.length) {
+      setPlanets(planets);
     } else {
       setLoading(true);
       fetch(`${base_url}/v1/planets`)
         .then(response => response.json())
         .then(data => {
-          const planetsArr = data.results;
-          setPlanets(planetsArr);
+          setPlanets(data.results ?? []);
           localStorage.setItem("planets_list", JSON.stringify({
-              payload: planetsArr,
-              timestamp: Date.now()
-            }
-          ));
+            payload: data.results ?? [],
+            timestamp: Date.now()
+          }));
         })
         .catch(() => setPlanets([]))
         .finally(() => setLoading(false));
@@ -37,12 +46,11 @@ const Contact = () => {
   }, []);
 
   const handleChange = e => {
-    setForm({...form, [e.target.name]: e.target.value})
+    setForm({...form, [e.target.name]: e.target.value});
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(form);
     alert('Form submitted!');
     setForm(initialForm);
   };
@@ -56,7 +64,6 @@ const Contact = () => {
       </p>
     );
   }
-
   return (
     <form
       className="max-w-[800px] mx-auto p-6 rounded-xl shadow bg-main text-black"
