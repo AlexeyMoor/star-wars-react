@@ -18,13 +18,19 @@ const Contact = () => {
     setLoading(true);
     try {
       const res = await fetch(`${base_url}/v1/planets`);
-      const data = await res.json();
-      const planetsArr = (Array.isArray(data) ? data : data.results ?? []).map(item => item.name);
+      if (!res.ok)
+        throw new Error(`Error: ${res.status} ${res.statusText}`);
+
+      const data = await res.json(); // Возвращает массив объектов планет
+      const planetsArr = data.map(item => item.name); // Преобразуем в массив имен планет
       setPlanets(planetsArr);
       localStorage.setItem('planets', JSON.stringify({
         payload: planetsArr,
         timestamp: Date.now()
       }));
+    } catch (e) {
+      console.log(e.message);
+      setPlanets([]);
     } finally {
       setLoading(false);
     }
